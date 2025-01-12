@@ -1,0 +1,49 @@
+.container {
+  background-color: whitesmoke;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 45vw;
+  height: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+input[type="text"], input[type="submit"] {
+  width: 75%;
+  padding: 8px;
+  font-size: 1rem;
+}
+
+input[type="submit"] {
+  width: 20%;
+
+  background-color: black;
+  font-weight: bold;
+
+  color: white;
+  border: none;
+
+}
+
+.list {
+  width: 100%;
+  margin-top: 20px;
+}
+
+summary {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 10px;
+}

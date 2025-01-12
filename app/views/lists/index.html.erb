@@ -4,7 +4,7 @@
   <p class="notice"><%= flash[:notice] %></p>
 <% end %>
 <!-- Formulário para criar uma nova lista -->
-<%= form_with model: @list, url: lists_path, local: true, html: {class: 'new-list'} do |form| %>
+<%= form_with model: @list, url: lists_path, local: true do |form| %>
   <%= form.text_field :name, placeholder: 'Nome da Lista' %>
   <%= form.submit 'Criar Lista', class: 'submit-button' %>
 <% end %>
@@ -15,10 +15,11 @@
 <% else %>
   <% @lists.each do |list| %>
     <div class="list">
-      <h2><%= list.name %></h2>
+      <details>
+      <summary><%= list.name %></summary>
 
       <!-- Formulário para adicionar tarefa -->
-      <%= form_with model: @task, url: list_tasks_path(list), local: true do |form| %>
+      <%= form_with model: @task, url: list_tasks_path(list), local: true, html: {class: 'task-form'} do |form| %>
         <%= form.text_field :title, placeholder: 'Nome da Tarefa' %>
         <%= form.submit 'Adicionar Tarefa' %>
       <% end %>
@@ -36,6 +37,7 @@
           <% end %>
         </ul>
       <% end %>
+    </details>
     </div>
   <% end %>
 <% end %>
