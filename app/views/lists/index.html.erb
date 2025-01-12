@@ -1,0 +1,42 @@
+<div class="container">
+  <h1>Lista de Tarefas</h1>
+<% if flash[:notice] %>
+  <p class="notice"><%= flash[:notice] %></p>
+<% end %>
+<!-- Formulário para criar uma nova lista -->
+<%= form_with model: @list, url: lists_path, local: true, html: {class: 'new-list'} do |form| %>
+  <%= form.text_field :name, placeholder: 'Nome da Lista' %>
+  <%= form.submit 'Criar Lista', class: 'submit-button' %>
+<% end %>
+
+<!-- Exibir as listas e suas tarefas -->
+<% if @lists.empty? %>
+  <p>Nenhuma lista encontrada.</p>
+<% else %>
+  <% @lists.each do |list| %>
+    <div class="list">
+      <h2><%= list.name %></h2>
+
+      <!-- Formulário para adicionar tarefa -->
+      <%= form_with model: @task, url: list_tasks_path(list), local: true do |form| %>
+        <%= form.text_field :title, placeholder: 'Nome da Tarefa' %>
+        <%= form.submit 'Adicionar Tarefa' %>
+      <% end %>
+
+      <!-- Exibir tarefas -->
+      <% if list.tasks.empty? %>
+        <p>Sem tarefas ainda.</p>
+      <% else %>
+        <ul>
+          <% list.tasks.each do |task| %>
+            <li>
+              <%= task.title %>
+              <%= link_to 'Remover', list_task_path(list, task), method: :delete, data: { confirm: 'Tem certeza?' } %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+</div>
