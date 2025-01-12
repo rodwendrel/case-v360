@@ -32,7 +32,9 @@
           <% list.tasks.each do |task| %>
             <li>
               <%= task.title %>
-              <%= link_to 'Remover', list_task_path(list, task), method: :delete, data: { confirm: 'Tem certeza?' } %>
+              <%= form_with url: list_task_path(list, task), method: :delete, local: true do %>
+                <%= submit_tag 'Remover', data: { confirm: 'Tem certeza?' }, class: 'delete-button' %>
+              <% end %>
             </li>
           <% end %>
         </ul>
