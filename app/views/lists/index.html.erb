@@ -1,46 +1,58 @@
+  <!-- Exibir mensagens de flash -->
+  <% if flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% end %>
 <div class="container">
   <h1>Lista de Tarefas</h1>
-<% if flash[:notice] %>
-  <p class="notice"><%= flash[:notice] %></p>
-<% end %>
-<!-- Formulário para criar uma nova lista -->
-<%= form_with model: @list, url: lists_path, local: true do |form| %>
-  <%= form.text_field :name, placeholder: 'Nome da Lista' %>
-  <%= form.submit 'Criar Lista', class: 'submit-button' %>
-<% end %>
-
-<!-- Exibir as listas e suas tarefas -->
-<% if @lists.empty? %>
-  <p>Nenhuma lista encontrada.</p>
-<% else %>
-  <% @lists.each do |list| %>
-    <div class="list">
-      <details>
-      <summary><%= list.name %></summary>
-
-      <!-- Formulário para adicionar tarefa -->
-      <%= form_with model: @task, url: list_tasks_path(list), local: true, html: {class: 'task-form'} do |form| %>
-        <%= form.text_field :title, placeholder: 'Nome da Tarefa' %>
-        <%= form.submit 'Adicionar Tarefa' %>
-      <% end %>
-
-      <!-- Exibir tarefas -->
-      <% if list.tasks.empty? %>
-        <p>Sem tarefas ainda.</p>
-      <% else %>
-        <ul>
-          <% list.tasks.each do |task| %>
-            <li>
-              <%= task.title %>
-              <%= form_with url: list_task_path(list, task), method: :delete, local: true do %>
-                <%= submit_tag 'Remover', data: { confirm: 'Tem certeza?' }, class: 'delete-button' %>
-              <% end %>
-            </li>
-          <% end %>
-        </ul>
-      <% end %>
-    </details>
-    </div>
+  <!-- Formulário para criar uma nova lista -->
+  <%= form_with model: @list, url: lists_path, local: true, html: { class: 'insert-form' } do |form| %>
+    <%= form.text_field :name, placeholder: 'Nome da Lista', class: 'input-main' %>
+    <%= form.submit 'Criar Lista', class: 'submit-button input-main input-submit' %>
   <% end %>
-<% end %>
+
+  <!-- Exibir as listas e suas tarefas -->
+  <% if @lists.empty? %>
+    <p>Nenhuma lista encontrada.</p>
+  <% else %>
+    <% @lists.each do |list| %>
+      <div class="list">
+        <details>
+          <summary> <%= list.name %> </summary>
+
+          <!-- Formulário para adicionar tarefa -->
+          <%= form_with model: @task, url: list_tasks_path(list), local: true, html: { class: 'insert-form' } do |form| %>
+            <%= form.text_field :title, placeholder: 'Nome da Tarefa', class: 'input-main' %>
+            <%= form.submit 'Adicionar Tarefa', class: 'input-main input-submit' %>
+          <% end %>
+
+          <!-- Exibir tarefas -->
+          <% if list.tasks.empty? %>
+            <p>Sem tarefas ainda.</p>
+          <% else %>
+            <ul>
+              <% list.tasks.each do |task| %>
+                <li class="task">
+                  <span class="task-title <%= 'completed' if task.completed %>"><%= task.title %></span>
+                  <!-- Formulário para alternar conclusão da tarefa -->
+                  <%= form_with model: task, url: list_task_path(list, task), method: :patch, local: true, html: { class: 'update-task-form' } do |form| %>
+                    <%= form.hidden_field :completed, value: !task.completed %>
+                    <%= button_tag(task.completed ? 'Marcar como Incompleta' : 'Marcar como Completa', 
+                      class: task.completed ? 'mark-incomplete-button' : 'mark-complete-button') %>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          <% end %>
+
+          <!-- Botão para excluir lista -->
+          <%= form_with url: list_path(list), method: :delete, local: true do %>
+            <%= submit_tag 'Excluir Lista', data: { confirm: 'Tem certeza?' }, class: 'input-main input-submit input-delete' %>
+          <% end %>
+        </details>
+      </div>
+    <% end %>
+  <% end %>
 </div>

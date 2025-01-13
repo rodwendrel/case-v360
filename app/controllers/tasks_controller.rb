@@ -9,11 +9,15 @@ class TasksController < ApplicationController
     end
   end
 
-  def destroy
+  def update
     @list = List.find(params[:list_id])
     @task = @list.tasks.find(params[:id])
-    @task.destroy
-    redirect_to root_path, notice: "Tarefa removida com sucesso."
+
+    if @task.update(task_params)
+      redirect_to root_path, notice: 'Tarefa atualizada com sucesso.'
+    else
+      redirect_to root_path, alert: 'Erro ao atualizar tarefa.'
+    end
   end
 
   private

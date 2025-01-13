@@ -13,6 +13,15 @@ class ListsController < ApplicationController
       render :index
     end
   end
+  
+
+  def destroy
+    @list = List.find(params[:id])
+    @list.destroy
+    redirect_to root_path, notice: "Lista removida com sucesso."
+  end
+
+
 
   private
 
