@@ -32,3 +32,9 @@ queue:
   database: case_v360_queue
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
+
+cache:
+  <<: *default
+  database: case_v360_cache
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
