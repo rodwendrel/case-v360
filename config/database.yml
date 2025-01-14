@@ -26,3 +26,9 @@ cable:
   database: case_v360_cable
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
+
+queue:
+  <<: *default
+  database: case_v360_queue
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
