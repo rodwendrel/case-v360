@@ -20,3 +20,9 @@ production:
   database: case_v360_production
   username: <%= ENV['DATABASE_USERNAME'] %>
   password: <%= ENV['DATABASE_PASSWORD'] %>
+
+cable:
+  <<: *default
+  database: case_v360_cable
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
