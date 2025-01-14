@@ -14,9 +14,9 @@ class TasksController < ApplicationController
     @task = @list.tasks.find(params[:id])
 
     if @task.update(task_params)
-      redirect_to root_path, notice: 'Tarefa atualizada com sucesso.'
+      redirect_to root_path, notice: "Tarefa atualizada com sucesso."
     else
-      redirect_to root_path, alert: 'Erro ao atualizar tarefa.'
+      redirect_to root_path, alert: "Erro ao atualizar tarefa."
     end
   end
 
